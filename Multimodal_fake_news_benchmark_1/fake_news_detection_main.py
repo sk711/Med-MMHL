@@ -21,7 +21,7 @@ parser.add_argument('-dataset-type', type=str, default='fakenews_article', help=
 parser.add_argument('-shuffle', action='store_true', default=True, help='shuffle the data every epoch')
 parser.add_argument('-split-ratio', type=str, default='[0.7, 0.8, 1.0]', help='the split ratio of tr, dev, te sets')
 parser.add_argument('-benchmark-path', type=str, default='/kaggle/input/medmmhl/', help='the benchmark data directory')
-@parser.add_argument('-benchmark-path', type=str, default='./benchmarked_data/', help='the benchmark data directory')
+#parser.add_argument('-benchmark-path', type=str, default='./benchmarked_data/', help='the benchmark data directory')
 
 # learning
 parser.add_argument('-lr', type=float, default=0.00001, help='initial learning rate [default: 0.001]')
