@@ -10,9 +10,9 @@ import re
 
 def read_benchmark_set(save_path):
  
-    tr_sv_path = os.path.join(save_path, '/train.csv')
-    dev_sv_path = os.path.join(save_path, 'kaggle/working/Med-MMHL/fakenews_article/dev.csv')
-    te_sv_path = os.path.join(save_path, 'kaggle/working/Med-MMHL/fakenews_article/test.csv')
+    tr_sv_path = os.path.join(save_path, 'train.csv')
+    dev_sv_path = os.path.join(save_path, 'dev.csv')
+    te_sv_path = os.path.join(save_path, 'test.csv')
     
     tr_df = pd.read_csv(tr_sv_path, header=0, sep=',')
     dev_df = pd.read_csv(dev_sv_path, header=0, sep=',')
