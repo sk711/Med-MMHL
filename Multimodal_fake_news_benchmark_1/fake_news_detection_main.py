@@ -1,4 +1,6 @@
 
+#! /usr/bin/env python
+# -- coding: utf-8 --
 import os
 import argparse
 import datetime
@@ -33,6 +35,7 @@ parser.add_argument('-save-dir', type=str, default='snapshot', help='where to sa
 parser.add_argument('-early-stop', type=int, default=15, help='iteration numbers to stop without performance increasing')
 parser.add_argument('-save-best', type=bool, default=True, help='whether to save when get best performance')
 parser.add_argument('-small_data', action='store_true', default=False, help='whether use small dataset for fast debug')
+parser.add_argument('-frequency', type=int, default=5, help='frequency of saving the model')
 
 # model
 parser.add_argument('-freeze-bert', action='store_true', default=True, help='freeze bert parameters')
@@ -85,14 +88,6 @@ te_dataloader = torch.utils.data.DataLoader(
     shuffle=False,
     drop_last=True
 )
-
-# (x_train, y_train), (x_val, y_val), (x_test, y_test) = dataset.generate_data()
-# args.class_num = tr_dataset.get_class_num()
-
-print("\nParameters:")
-for attr, value in sorted(args.__dict__.items()):
-    print("\t{}={}".format(attr.upper(), value))
-
 # model
 if args.model_name == 'bert_classifier': # used for any transformer model
     fk_det_model = bert_classifier.BertClassifier(args)
@@ -121,14 +116,15 @@ else:
         print('start training')
         for epoch in range(1, args.epochs + 1):
             train.train(tr_dataloader, dev_dataloader, fk_det_model, args)
-            if epoch % args.save_interval == 0:
-                # Save model every `save_interval` epoch
+            if epoch % args.frequency == 0:
                 torch.save(fk_det_model.state_dict(), os.path.join(args.save_dir, f'model_epoch_{epoch}.pt'))
+                print(f'Model saved at epoch {epoch}')
     except KeyboardInterrupt:
         print('\n' + '-' * 89)
         print('Exiting from training early')
     print('start testing')
     eval(te_dataloader, fk_det_model, args)
+
 
 
 
