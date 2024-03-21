@@ -188,6 +188,10 @@ if not args.test:
                     'val_accuracy': val_accuracy
                 }, snapshot_path)
                 print(f'Model snapshot saved at epoch {epoch}')
+                  # Commit changes to Git
+                repo.git.add('--all')
+                repo.index.commit('Added snapshots')
+                print("Snapshot saved.")                             
 
     except KeyboardInterrupt:
         print('\n' + '-' * 89)
