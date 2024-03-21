@@ -159,39 +159,40 @@ if not args.test:
         else:
             print("No existing checkpoints found. Starting training from the first epoch.")
         
-        # Continue training from start_epoch
-        for epoch in range(start_epoch, args.epochs + 1):
-            train_loss, train_accuracy = train.train(tr_dataloader, dev_dataloader, fk_det_model, args)
+    # Continue training from start_epoch
+for epoch in range(start_epoch, args.epochs + 1):
+    train_loss, train_accuracy = train.train(tr_dataloader, dev_dataloader, fk_det_model, args)
 
-            val_loss, val_accuracy = eval(dev_dataloader, fk_det_model, args)
+    val_loss, val_accuracy = eval(dev_dataloader, fk_det_model, args)
 
-            train_losses.append(train_loss)
-            val_losses.append(val_loss)
-            train_accuracies.append(train_accuracy)
-            val_accuracies.append(val_accuracy)
+    train_losses.append(train_loss)
+    val_losses.append(val_loss)
+    train_accuracies.append(train_accuracy)
+    val_accuracies.append(val_accuracy)
 
-            if val_loss < best_val_loss:
-                best_val_loss = val_loss
-                best_epoch = epoch
-                if args.save_best:
-                    torch.save(fk_det_model.state_dict(), os.path.join(args.save_dir, 'best_model.pt'))
+    if val_loss < best_val_loss:
+        best_val_loss = val_loss
+        best_epoch = epoch
+        if args.save_best:
+            torch.save(fk_det_model.state_dict(), os.path.join(args.save_dir, 'best_model.pt'))
 
-            if epoch % args.frequency == 0:
-                # Save the model snapshot
-                snapshot_path = os.path.join(args.snapshot_dir, f'model_epoch_{epoch}.pt')
-                torch.save({
-                    'epoch': epoch,
-                    'model_state_dict': fk_det_model.state_dict(),
-                    'train_loss': train_loss,
-                    'val_loss': val_loss,
-                    'train_accuracy': train_accuracy,
-                    'val_accuracy': val_accuracy
-                }, snapshot_path)
-                print(f'Model snapshot saved at epoch {epoch}')
-                  # Commit changes to Git
-                repo.git.add('--all')
-                repo.index.commit('Added snapshots')
-                print("Snapshot saved.")                             
+    if epoch % args.frequency == 0:
+        # Save the model snapshot
+        snapshot_path = os.path.join(args.snapshot_dir, f'model_epoch_{epoch}.pt')
+        torch.save({
+            'epoch': epoch,
+            'model_state_dict': fk_det_model.state_dict(),
+            'train_loss': train_loss,
+            'val_loss': val_loss,
+            'train_accuracy': train_accuracy,
+            'val_accuracy': val_accuracy
+        }, snapshot_path)
+        print(f'Model snapshot saved at epoch {epoch}')
+        
+        # Commit changes to Git
+        repo.git.add('--all')
+        repo.index.commit('Added snapshots')
+        print("Snapshot saved.")                             
 
     except KeyboardInterrupt:
         print('\n' + '-' * 89)
