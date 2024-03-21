@@ -72,6 +72,9 @@ args.save_dir = os.path.join(args.save_dir, datetime.datetime.now().strftime('%Y
 # Check if the directory for saving checkpoints exists, if not, create it
 if not os.path.exists(args.checkpoint_dir):
     os.makedirs(args.checkpoint_dir)
+# Check if the directory for saving snapshots exists, if not, create it
+if not os.path.exists(args.save_dir):
+    os.makedirs(args.save_dir)
 
 benchmark_dt_path = args.benchmark_path + args.dataset_type
 tr, dev, te = MyFunc.read_benchmark_set(benchmark_dt_path)
