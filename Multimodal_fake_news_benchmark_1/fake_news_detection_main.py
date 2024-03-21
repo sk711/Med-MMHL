@@ -26,7 +26,6 @@ parser.add_argument('-dataset-type', type=str, default='fakenews_article', help=
 parser.add_argument('-shuffle', action='store_true', default=True, help='shuffle the data every epoch')
 parser.add_argument('-split-ratio', type=str, default='[0.7, 0.8, 1.0]', help='the split ratio of tr, dev, te sets')
 parser.add_argument('-benchmark-path', type=str, default='./benchmarked_data/', help='the benchmark data directory')
-parser.add_argument('-checkpoint-dir', type=str, default='./checkpoints/', help='directory to save checkpoints')
 
 # learning
 parser.add_argument('-lr', type=float, default=0.00001, help='initial learning rate [default: 0.001]')
@@ -66,8 +65,8 @@ args.cuda = (not args.no_cuda) and torch.cuda.is_available(); del args.no_cuda
 args.save_dir = os.path.join(args.save_dir, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
 
 # Define Git repository and checkpoint directory paths
-repo = git.Repo("https://github.com/sk711/Med-MMHL")
-checkpoint_dir = os.path.join(repo.working_tree_dir, "Multimodal_fake_news_benchmark_1", "checkpoints")
+repo = git.Repo("https://github.com/sk711/Med-MMHL/tree/2d7e0732a41548e224aeca7a517f4e69ac35e8e9/Multimodal_fake_news_benchmark_1")
+checkpoint_dir = os.path.join(repo.working_tree_dir, "checkpoints")
 
 # Ensure the checkpoint directory exists
 os.makedirs(checkpoint_dir, exist_ok=True)
@@ -179,10 +178,6 @@ if not args.test:
                 }, os.path.join(args.checkpoint_dir, f'model_epoch_{epoch}.pt'))
                 print(f'Model saved at epoch {epoch}')
 
-                # Save the checkpoint to the Git repository
-                repo.git.add(update=True)
-                repo.index.commit("Checkpoint saved")
-
     except KeyboardInterrupt:
         print('\n' + '-' * 89)
         print('Exiting from training early')
@@ -227,6 +222,8 @@ def plot_confusion_matrix(y_true, y_pred, classes):
 plot_confusion_matrix(y_true, y_pred, ['Fake', 'Real'])
 
 # End of code
+
+
 
 
 
