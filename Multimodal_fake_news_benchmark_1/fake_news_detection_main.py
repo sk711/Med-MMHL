@@ -147,7 +147,8 @@ if not args.test:
             checkpoint_path = os.path.join(args.save_dir, latest_checkpoint)
             checkpoint = torch.load(checkpoint_path)
             fk_det_model.load_state_dict(checkpoint['model_state_dict'])
-
+        else:
+            print("No existing checkpoints found. Starting training from the first epoch.")
         # Continue training from start_epoch
         for epoch in range(start_epoch, args.epochs + 1):
             train_loss, train_accuracy = train.train(tr_dataloader, dev_dataloader, fk_det_model, args)
