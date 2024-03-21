@@ -65,7 +65,12 @@ args.cuda = (not args.no_cuda) and torch.cuda.is_available(); del args.no_cuda
 args.save_dir = os.path.join(args.save_dir, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
 
 # Define Git repository and checkpoint directory paths
-repo = git.Repo("https://github.com/sk711/Med-MMHL/tree/2d7e0732a41548e224aeca7a517f4e69ac35e8e9/Multimodal_fake_news_benchmark_1")
+repo_url = "https://github.com/sk711/Med-MMHL.git"
+repo_folder = "Med-MMHL"
+# Clone the Git repository
+repo = git.Repo.clone_from(repo_url, repo_folder)
+
+# Define the checkpoint directory path inside the cloned repository
 checkpoint_dir = os.path.join(repo.working_tree_dir, "checkpoints")
 
 # Ensure the checkpoint directory exists
