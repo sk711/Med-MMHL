@@ -157,7 +157,7 @@ if not args.test:
             val_accuracies.append(val_accuracy)
 
             if val_loss < best_val_loss:
-                                best_val_loss = val_loss
+                best_val_loss = val_loss
                 best_epoch = epoch
                 if args.save_best:
                     torch.save(fk_det_model.state_dict(), os.path.join(args.save_dir, 'best_model.pt'))
