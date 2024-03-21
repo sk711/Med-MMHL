@@ -138,65 +138,66 @@ if not args.test:
     best_val_loss = float('inf')
     best_epoch = 0
 
-    try:
-        print('Start training')
-        
-        # Initialize start_epoch
-        start_epoch = 1
-        
-        # Check if there are any existing checkpoints in the save directory
-        existing_checkpoints = [f for f in os.listdir(args.checkpoint_dir) if f.startswith('model_epoch_')]
-        if existing_checkpoints:
-            # If existing checkpoints are found, load the latest checkpoint
-            latest_checkpoint = max(existing_checkpoints)
-            start_epoch = int(latest_checkpoint.split('_')[-1].split('.')[0]) + 1
-            print(f"Resuming training from epoch {start_epoch} using checkpoint {latest_checkpoint}")
+ try:
+    print('Start training')
+    
+    # Initialize start_epoch
+    start_epoch = 1
+    
+    # Check if there are any existing checkpoints in the save directory
+    existing_checkpoints = [f for f in os.listdir(args.checkpoint_dir) if f.startswith('model_epoch_')]
+    if existing_checkpoints:
+        # If existing checkpoints are found, load the latest checkpoint
+        latest_checkpoint = max(existing_checkpoints)
+        start_epoch = int(latest_checkpoint.split('_')[-1].split('.')[0]) + 1
+        print(f"Resuming training from epoch {start_epoch} using checkpoint {latest_checkpoint}")
 
-            # Load the state dictionary from the latest checkpoint
-            checkpoint_path = os.path.join(args.checkpoint_dir, latest_checkpoint)
-            checkpoint = torch.load(checkpoint_path)
-            fk_det_model.load_state_dict(checkpoint['model_state_dict'])
-        else:
-            print("No existing checkpoints found. Starting training from the first epoch.")
-        
+        # Load the state dictionary from the latest checkpoint
+        checkpoint_path = os.path.join(args.checkpoint_dir, latest_checkpoint)
+        checkpoint = torch.load(checkpoint_path)
+        fk_det_model.load_state_dict(checkpoint['model_state_dict'])
+    else:
+        print("No existing checkpoints found. Starting training from the first epoch.")
+    
     # Continue training from start_epoch
-for epoch in range(start_epoch, args.epochs + 1):
-    train_loss, train_accuracy = train.train(tr_dataloader, dev_dataloader, fk_det_model, args)
+    for epoch in range(start_epoch, args.epochs + 1):
+        train_loss, train_accuracy = train.train(tr_dataloader, dev_dataloader, fk_det_model, args)
 
-    val_loss, val_accuracy = eval(dev_dataloader, fk_det_model, args)
+        val_loss, val_accuracy = eval(dev_dataloader, fk_det_model, args)
 
-    train_losses.append(train_loss)
-    val_losses.append(val_loss)
-    train_accuracies.append(train_accuracy)
-    val_accuracies.append(val_accuracy)
+        train_losses.append(train_loss)
+        val_losses.append(val_loss)
+        train_accuracies.append(train_accuracy)
+        val_accuracies.append(val_accuracy)
 
-    if val_loss < best_val_loss:
-        best_val_loss = val_loss
-        best_epoch = epoch
-        if args.save_best:
-            torch.save(fk_det_model.state_dict(), os.path.join(args.save_dir, 'best_model.pt'))
+        if val_loss < best_val_loss:
+            best_val_loss = val_loss
+            best_epoch = epoch
+            if args.save_best:
+                torch.save(fk_det_model.state_dict(), os.path.join(args.save_dir, 'best_model.pt'))
 
-    if epoch % args.frequency == 0:
-        # Save the model snapshot
-        snapshot_path = os.path.join(args.snapshot_dir, f'model_epoch_{epoch}.pt')
-        torch.save({
-            'epoch': epoch,
-            'model_state_dict': fk_det_model.state_dict(),
-            'train_loss': train_loss,
-            'val_loss': val_loss,
-            'train_accuracy': train_accuracy,
-            'val_accuracy': val_accuracy
-        }, snapshot_path)
-        print(f'Model snapshot saved at epoch {epoch}')
-        
-        # Commit changes to Git
-        repo.git.add('--all')
-        repo.index.commit('Added snapshots')
-        print("Snapshot saved.")                             
+        if epoch % args.frequency == 0:
+            # Save the model snapshot
+            snapshot_path = os.path.join(args.snapshot_dir, f'model_epoch_{epoch}.pt')
+            torch.save({
+                'epoch': epoch,
+                'model_state_dict': fk_det_model.state_dict(),
+                'train_loss': train_loss,
+                'val_loss': val_loss,
+                'train_accuracy': train_accuracy,
+                'val_accuracy': val_accuracy
+            }, snapshot_path)
+            print(f'Model snapshot saved at epoch {epoch}')
+            
+            # Commit changes to Git
+            repo.git.add('--all')
+            repo.index.commit('Added snapshots')
+            print("Snapshot saved.")                             
 
-    except KeyboardInterrupt:
-        print('\n' + '-' * 89)
-        print('Exiting from training early')
+except KeyboardInterrupt:
+    print('\n' + '-' * 89)
+    print('Exiting from training early')
+
 
     print('Start testing')
     eval(te_dataloader, fk_det_model, args)
