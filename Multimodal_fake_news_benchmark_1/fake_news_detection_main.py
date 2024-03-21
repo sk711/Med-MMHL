@@ -67,8 +67,11 @@ args.save_dir = os.path.join(args.save_dir, datetime.datetime.now().strftime('%Y
 # Define Git repository and checkpoint directory paths
 repo_url = "https://github.com/sk711/Med-MMHL.git"
 repo_folder = "Med-MMHL"
-# Clone the Git repository
-repo = git.Repo.clone_from(repo_url, repo_folder)
+# Clone the Git repository if it doesn't exist
+if not os.path.exists(repo_folder):
+    repo = git.Repo.clone_from(repo_url, repo_folder)
+else:
+    repo = git.Repo(repo_folder)
 
 # Define the checkpoint directory path inside the cloned repository
 checkpoint_dir = os.path.join(repo.working_tree_dir, "checkpoints")
