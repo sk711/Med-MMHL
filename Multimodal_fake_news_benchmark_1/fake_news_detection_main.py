@@ -55,6 +55,8 @@ parser.add_argument('-test', action='store_true', default=False, help='train or 
 
 # Add a new argument to specify the directory for saving checkpoints
 parser.add_argument('-checkpoint-dir', type=str, default='Med-MMHL/checkpoints/', help='directory to save checkpoints')
+# Add a new argument to specify the directory for saving snapshots
+parser.add_argument('-snapshot-dir', type=str, default='Med-MMHL/snapshots/', help='directory to save snapshots in the Git repository')
 
 args = parser.parse_args()
 
@@ -78,8 +80,8 @@ checkpoint_dir = os.path.join(repo.working_tree_dir, "checkpoints")
 os.makedirs(checkpoint_dir, exist_ok=True)
 
 # Check if the directory for saving snapshots exists, if not, create it
-if not os.path.exists(args.save_dir):
-    os.makedirs(args.save_dir)
+if not os.path.exists(args.snapshot_dir):
+    os.makedirs(args.snapshot_dir)
 
 benchmark_dt_path = args.benchmark_path + args.dataset_type
 tr, dev, te = MyFunc.read_benchmark_set(benchmark_dt_path)
@@ -113,6 +115,8 @@ te_dataloader = torch.utils.data.DataLoader(
 )
 
 # model
+if args.model_name == 'bert_classifier':
+    fk_det_model = bert_classifier.BertClassifier
 if args.model_name == 'bert_classifier':
     fk_det_model = bert_classifier.BertClassifier(args)
 else:
@@ -174,6 +178,7 @@ if not args.test:
 
             if epoch % args.frequency == 0:
                 # Save the model snapshot
+                snapshot_path = os.path.join(args.snapshot_dir, f'model_epoch_{epoch}.pt')
                 torch.save({
                     'epoch': epoch,
                     'model_state_dict': fk_det_model.state_dict(),
@@ -181,8 +186,8 @@ if not args.test:
                     'val_loss': val_loss,
                     'train_accuracy': train_accuracy,
                     'val_accuracy': val_accuracy
-                }, os.path.join(args.checkpoint_dir, f'model_epoch_{epoch}.pt'))
-                print(f'Model saved at epoch {epoch}')
+                }, snapshot_path)
+                print(f'Model snapshot saved at epoch {epoch}')
 
     except KeyboardInterrupt:
         print('\n' + '-' * 89)
@@ -228,6 +233,7 @@ def plot_confusion_matrix(y_true, y_pred, classes):
 plot_confusion_matrix(y_true, y_pred, ['Fake', 'Real'])
 
 # End of code
+
 
 
 # import os
