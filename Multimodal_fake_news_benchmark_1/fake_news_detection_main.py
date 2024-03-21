@@ -54,7 +54,7 @@ parser.add_argument('-snapshot', type=str, default=None, help='filename of model
 parser.add_argument('-test', action='store_true', default=False, help='train or test')
 
 # Add a new argument to specify the directory for saving checkpoints
-parser.add_argument('-checkpoint-dir', type=str, default='./checkpoints/', help='directory to save checkpoints')
+parser.add_argument('-checkpoint-dir', type=str, default='Med-MMHL/checkpoints/', help='directory to save checkpoints')
 
 args = parser.parse_args()
 
