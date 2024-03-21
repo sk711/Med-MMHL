@@ -149,7 +149,7 @@ if not args.test:
     plt.figure(figsize=(12, 6))
     plt.subplot(1, 2, 1)
     plt.plot(range(1, args.epochs + 1), train_losses)
-        plt.plot(range(1, args.epochs + 1), train_losses, label='Train Loss')
+    plt.plot(range(1, args.epochs + 1), train_losses, label='Train Loss')
     plt.plot(range(1, args.epochs + 1), val_losses, label='Validation Loss')
     plt.xlabel('Epochs')
     plt.ylabel('Loss')
