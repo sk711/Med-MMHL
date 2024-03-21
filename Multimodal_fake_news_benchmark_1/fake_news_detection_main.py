@@ -138,7 +138,7 @@ if not args.test:
     best_val_loss = float('inf')
     best_epoch = 0
 
- try:
+try:
     print('Start training')
     
     # Initialize start_epoch
@@ -197,6 +197,7 @@ if not args.test:
 except KeyboardInterrupt:
     print('\n' + '-' * 89)
     print('Exiting from training early')
+
 
 
     print('Start testing')
