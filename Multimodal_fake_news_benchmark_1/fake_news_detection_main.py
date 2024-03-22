@@ -140,13 +140,16 @@ if not args.test:
 
 try:
     print('Start training')
+    print('Inside try') 
     
     # Initialize start_epoch
     start_epoch = 1
+    print('start_epoch value: ',start_epoch)
     
     # Check if there are any existing checkpoints in the save directory
     existing_checkpoints = [f for f in os.listdir(args.checkpoint_dir) if f.startswith('model_epoch_')]
     if existing_checkpoints:
+        print('Inside existing checkpoints if condition') 
         # If existing checkpoints are found, load the latest checkpoint
         latest_checkpoint = max(existing_checkpoints)
         start_epoch = int(latest_checkpoint.split('_')[-1].split('.')[0]) + 1
@@ -161,6 +164,7 @@ try:
     
     # Continue training from start_epoch
     for epoch in range(start_epoch, args.epochs + 1):
+        print('Inside for loop line 167') 
         train_loss, train_accuracy = train.train(tr_dataloader, dev_dataloader, fk_det_model, args)
 
         val_loss, val_accuracy = eval(dev_dataloader, fk_det_model, args)
@@ -177,6 +181,7 @@ try:
                 torch.save(fk_det_model.state_dict(), os.path.join(args.save_dir, 'best_model.pt'))
 
         if epoch % args.frequency == 0:
+            print('inside if condition of saving model snapshot')
             # Save the model snapshot
             snapshot_path = os.path.join(args.snapshot_dir, f'model_epoch_{epoch}.pt')
             torch.save({
