@@ -6,6 +6,7 @@ import datetime
 import torch
 import torch.optim as optim
 import git
+import matplotlib.pyplot as plt
 
 import train
 
@@ -138,9 +139,9 @@ try:
 
     # Continue training from start_epoch
     for epoch in range(start_epoch, args.epochs + 1):
-                # Train and evaluate the model for the current epoch
+        # Train and evaluate the model for the current epoch
         train_loss, train_accuracy = train.train(tr_dataloader, dev_dataloader, fk_det_model, args)
-        val_loss, val_accuracy = eval(dev_dataloader, fk_det_model, args)
+                val_loss, val_accuracy = eval(dev_dataloader, fk_det_model, args)
 
         # Append the training and validation metrics for plotting
         train_losses.append(train_loss)
@@ -156,25 +157,25 @@ try:
                 torch.save(fk_det_model.state_dict(), os.path.join(args.save_dir, 'best_model.pt'))
 
         # Save the model snapshot after every save_interval epochs
-           if epoch % args.save_interval == 0:  
-               snapshot_path = os.path.join(args.snapshot_dir, f'model_epoch_{epoch}.pt')
-               torch.save({
-                    'epoch': epoch,
-                    'model_state_dict': fk_det_model.state_dict(),
-                    'train_loss': train_loss,
-                    'val_loss': val_loss,
-                    'train_accuracy': train_accuracy,
-                    'val_accuracy': val_accuracy
-                }, snapshot_path)
-                print(f'Model snapshot saved at epoch {epoch}')
-                
-                # Commit changes to Git
-                repo = git.Repo(args.snapshot_dir)
-                repo.git.add('--all')
-                repo.index.commit(f'Snapshot saved for epoch {epoch}')
-                print("Snapshot saved and committed to Git repository.")
-            else:
-        print("Snapshot not saved for this epoch.")
+        if epoch % args.save_interval == 0:  
+            snapshot_path = os.path.join(args.snapshot_dir, f'model_epoch_{epoch}.pt')
+            torch.save({
+                'epoch': epoch,
+                'model_state_dict': fk_det_model.state_dict(),
+                'train_loss': train_loss,
+                'val_loss': val_loss,
+                'train_accuracy': train_accuracy,
+                'val_accuracy': val_accuracy
+            }, snapshot_path)
+            print(f'Model snapshot saved at epoch {epoch}')
+            
+            # Commit changes to Git
+            repo = git.Repo(args.snapshot_dir)
+            repo.git.add('--all')
+            repo.index.commit(f'Snapshot saved for epoch {epoch}')
+            print("Snapshot saved and committed to Git repository.")
+        else:
+            print("Snapshot not saved for this epoch.")
 
 except KeyboardInterrupt:
     print('\n' + '-' * 89)
