@@ -157,6 +157,7 @@ try:
                 torch.save(fk_det_model.state_dict(), os.path.join(args.save_dir, 'best_model.pt'))
 
         # Save the model snapshot after every save_interval epochs
+        print(f'Epoch: {epoch}',"line 160 - before if ")
         if epoch % args.save_interval == 0:  
             snapshot_path = os.path.join(args.snapshot_dir, f'model_epoch_{epoch}.pt')
             torch.save({
@@ -176,6 +177,7 @@ try:
             print("Snapshot saved and committed to Git repository.")
         else:
             print("Snapshot not saved for this epoch.")
+        
 
 except KeyboardInterrupt:
     print('\n' + '-' * 89)
