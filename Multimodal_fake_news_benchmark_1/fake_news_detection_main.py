@@ -141,7 +141,7 @@ try:
     for epoch in range(start_epoch, args.epochs + 1):
         # Train and evaluate the model for the current epoch
         train_loss, train_accuracy = train.train(tr_dataloader, dev_dataloader, fk_det_model, args)
-                val_loss, val_accuracy = eval(dev_dataloader, fk_det_model, args)
+        val_loss, val_accuracy = eval(dev_dataloader, fk_det_model, args)
 
         # Append the training and validation metrics for plotting
         train_losses.append(train_loss)
