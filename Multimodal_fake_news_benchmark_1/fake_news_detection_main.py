@@ -55,9 +55,9 @@ parser.add_argument('-test', action='store_true', default=False, help='train or 
 # Add a new argument to specify the Git URL
 parser.add_argument('-git-url', type=str, default='git@github.com:sk711/Med-MMHL.git', help='Git repository URL')
 # Add a new argument to specify the directory for saving checkpoints
-parser.add_argument('-checkpoint-dir', type=str, default='Med-MMHL/checkpoints/', help='directory to save checkpoints')
+parser.add_argument('-checkpoint-dir', type=str, default='kaggle/working/checkpoints/', help='directory to save checkpoints')
 # Add a new argument to specify the directory for saving snapshots
-parser.add_argument('-snapshot-dir', type=str, default='Med-MMHL/snapshot/', help='directory to save snapshots in the Git repository')
+parser.add_argument('-snapshot-dir', type=str, default='kaggle/working/snapshot/', help='directory to save snapshots in the Git repository')
 
 args = parser.parse_args()
 
@@ -145,13 +145,13 @@ try:
         # Train and evaluate the model for the current epoch
         train_loss, train_accuracy = train.train(tr_dataloader, dev_dataloader, fk_det_model, args)
         val_loss, val_accuracy = eval(dev_dataloader, fk_det_model, args)
-
+        print('line 148')
         # Append the training and validation metrics for plotting
         train_losses.append(train_loss)
         val_losses.append(val_loss)
         train_accuracies.append(train_accuracy)
         val_accuracies.append(val_accuracy)
-
+        print('line 149')
         # Update the best validation loss and epoch if applicable
         if val_loss < best_val_loss:
             print('inside valloss < best_val_loss')
