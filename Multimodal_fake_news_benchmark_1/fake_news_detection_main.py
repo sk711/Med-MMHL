@@ -154,9 +154,11 @@ try:
 
         # Update the best validation loss and epoch if applicable
         if val_loss < best_val_loss:
+            print('inside valloss < best_val_loss)
             best_val_loss = val_loss
             best_epoch = epoch
             if args.save_best:
+                print('on line 1611')
                 torch.save(fk_det_model.state_dict(), os.path.join(args.save_dir, 'best_model.pt'))
 
         # Save the model snapshot after every save_interval epochs
