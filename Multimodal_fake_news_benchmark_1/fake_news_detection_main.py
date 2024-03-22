@@ -156,9 +156,9 @@ try:
                 torch.save(fk_det_model.state_dict(), os.path.join(args.save_dir, 'best_model.pt'))
 
         # Save the model snapshot after every save_interval epochs
-           if epoch % args.save_interval == 0:    # Save the model snapshot
+           if epoch % args.save_interval == 0:  
                snapshot_path = os.path.join(args.snapshot_dir, f'model_epoch_{epoch}.pt')
-                torch.save({
+               torch.save({
                     'epoch': epoch,
                     'model_state_dict': fk_det_model.state_dict(),
                     'train_loss': train_loss,
