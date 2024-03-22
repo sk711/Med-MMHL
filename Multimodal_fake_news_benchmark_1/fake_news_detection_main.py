@@ -55,7 +55,7 @@ parser.add_argument('-test', action='store_true', default=False, help='train or 
 # Add a new argument to specify the Git URL
 #parser.add_argument('-git-url', type=str, default='git@github.com:sk711/Med-MMHL.git', help='Git repository URL')
 # Add a new argument to specify the directory for saving checkpoints
-#parser.add_argument('-checkpoint-dir', type=str, default='/kaggle/input/checkpoints/', help='directory to save checkpoints')
+parser.add_argument('-checkpoint-dir', type=str, default='/kaggle/input/checkpoints/', help='directory to save checkpoints')
 # Add a new argument to specify the directory for saving snapshots
 parser.add_argument('-snapshot-dir', type=str, default='/kaggle/input/snapshot/', help='directory to save snapshots in the Git repository')
 
