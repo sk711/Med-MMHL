@@ -138,7 +138,10 @@ try:
         print("No existing checkpoints found. Starting training from the first epoch.")
 
     # Continue training from start_epoch
+    print('Epoch:', start_epoch)
+    print('Save Interval:', args.save_interval)
     for epoch in range(start_epoch, args.epochs + 1):
+        print('Current epoch:', epoch)
         # Train and evaluate the model for the current epoch
         train_loss, train_accuracy = train.train(tr_dataloader, dev_dataloader, fk_det_model, args)
         val_loss, val_accuracy = eval(dev_dataloader, fk_det_model, args)
