@@ -59,7 +59,7 @@ args = parser.parse_args()
 # Update args and print
 args.cuda = (not args.no_cuda) and torch.cuda.is_available()
 del args.no_cuda
-args.save_dir = os.path.join(args.save_dir, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
+#args.save_dir = os.path.join(args.save_dir, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
 
 # Load benchmark dataset
 benchmark_dt_path = os.path.join(args.benchmark_path, args.dataset_type)
