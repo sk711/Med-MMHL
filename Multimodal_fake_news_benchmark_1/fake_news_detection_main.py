@@ -78,7 +78,7 @@ if args.resume:
     print('Resuming training...')
     checkpoint_files = os.listdir(args.save_dir)
     if checkpoint_files:
-        print('Checkpoint files found-new')
+        print('Checkpoint files found w.')
         checkpoint_files = [file for file in checkpoint_files if file.startswith('Fake_News_BERT_Classifier_steps_')]
         if checkpoint_files:
             epochs = [int(file.split('_')[-1].split('.')[0]) for file in checkpoint_files]
@@ -90,8 +90,11 @@ if args.resume:
                 checkpoint = torch.load(checkpoint_path)
                 print("Checkpoint keys:", checkpoint.keys())  # Print keys in the loaded checkpoint
                 fk_det_model.load_state_dict(checkpoint)  # Load entire checkpoint for inspection
-                start_epoch = checkpoint['epoch'] + 1
-                print(f"Resuming training from epoch {start_epoch} using checkpoint {latest_checkpoint}")
+                if 'epoch' in checkpoint:
+                    start_epoch = checkpoint['epoch'] + 1
+                    print(f"Resuming training from epoch {start_epoch} using checkpoint {latest_checkpoint}")
+                else:
+                    print("Checkpoint does not contain 'epoch' key.")
             except Exception as e:
                 print(f"Error loading checkpoint: {e}")
         else:
@@ -100,6 +103,33 @@ if args.resume:
         print('No checkpoint files found. Training from scratch...')
 else:
     print('Training from scratch...')
+
+# if args.resume:
+#     print('Resuming training...')
+#     checkpoint_files = os.listdir(args.save_dir)
+#     if checkpoint_files:
+#         print('Checkpoint files found-new')
+#         checkpoint_files = [file for file in checkpoint_files if file.startswith('Fake_News_BERT_Classifier_steps_')]
+#         if checkpoint_files:
+#             epochs = [int(file.split('_')[-1].split('.')[0]) for file in checkpoint_files]
+#             latest_checkpoint_index = epochs.index(max(epochs))
+#             latest_checkpoint = checkpoint_files[latest_checkpoint_index]
+#             checkpoint_path = os.path.join(args.save_dir, latest_checkpoint)
+#             print(f"Loading checkpoint from: {checkpoint_path}")
+#             try:
+#                 checkpoint = torch.load(checkpoint_path)
+#                 print("Checkpoint keys:", checkpoint.keys())  # Print keys in the loaded checkpoint
+#                 fk_det_model.load_state_dict(checkpoint)  # Load entire checkpoint for inspection
+#                 start_epoch = checkpoint['epoch'] + 1
+#                 print(f"Resuming training from epoch {start_epoch} using checkpoint {latest_checkpoint}")
+#             except Exception as e:
+#                 print(f"Error loading checkpoint: {e}")
+#         else:
+#             print('No valid checkpoint files found.')
+#     else:
+#         print('No checkpoint files found. Training from scratch...')
+# else:
+#     print('Training from scratch...')
 
 # if args.resume:
 #     print('Resuming training...')
