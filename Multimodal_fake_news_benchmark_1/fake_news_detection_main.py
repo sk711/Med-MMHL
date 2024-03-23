@@ -49,7 +49,7 @@ parser.add_argument('-test', action='store_true', default=False, help='train or 
 
 # Add arguments for checkpoint and training
 parser.add_argument('-save-dir', type=str, default='/kaggle/working/snapshot', help='Directory to save snapshots')
-parser.add_argument('-resume', action='store_true', default=False, help='Resume training from the latest checkpoint')
+parser.add_argument('-resume', action='store_true', default=True, help='Resume training from the latest checkpoint')
 
 # Add arguments for checkpoint directory
 parser.add_argument('-checkpoint-dir', type=str, default='/kaggle/working/checkpoints/', help='Directory to save checkpoints')
