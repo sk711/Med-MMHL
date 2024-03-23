@@ -72,25 +72,23 @@ start_epoch = 1
 # Ensure the checkpoint directory exists
 os.makedirs(args.save_dir, exist_ok=True)
 os.makedirs(args.checkpoint_dir, exist_ok=True)
-
-# If resume is True, load the latest checkpoint
 if args.resume:
     print('Resuming training...')
     checkpoint_files = os.listdir(args.save_dir)
     if checkpoint_files:
         print('Checkpoint files found.')
-        checkpoint_files = [file for file in checkpoint_files if file.startswith('Fake_News_BERT_Classifier_best_epoch_')]
+        checkpoint_files = [file for file in checkpoint_files if file.startswith('Fake_News_BERT_Classifier_steps_')]
         if checkpoint_files:
-            epochs = [int(file.split('_')[-1].split('.')[0]) for file in checkpoint_files]
-            latest_checkpoint_index = epochs.index(max(epochs))
+            steps = [int(file.split('_')[-1].split('.')[0]) for file in checkpoint_files]
+            latest_checkpoint_index = steps.index(max(steps))
             latest_checkpoint = checkpoint_files[latest_checkpoint_index]
             checkpoint_path = os.path.join(args.save_dir, latest_checkpoint)
             print(f"Loading checkpoint from: {checkpoint_path}")
             try:
                 checkpoint = torch.load(checkpoint_path)
                 fk_det_model.load_state_dict(checkpoint['model_state_dict'])
-                start_epoch = epochs[latest_checkpoint_index] + 1
-                print(f"Resuming training from epoch {start_epoch} using checkpoint {latest_checkpoint}")
+                start_epoch = checkpoint['epoch'] + 1  # Adjust based on your checkpoint structure
+                print(f"Resuming training from step {steps[latest_checkpoint_index]} using checkpoint {latest_checkpoint}")
             except Exception as e:
                 print(f"Error loading checkpoint: {e}")
         else:
@@ -100,6 +98,34 @@ if args.resume:
 else:
     print('Training from scratch...')
 
+#didnt work
+# If resume is True, load the latest checkpoint
+# if args.resume:
+#     print('Resuming training...')
+#     checkpoint_files = os.listdir(args.save_dir)
+#     if checkpoint_files:
+#         print('Checkpoint files found.')
+#         checkpoint_files = [file for file in checkpoint_files if file.startswith('Fake_News_BERT_Classifier_best_epoch_')]
+#         if checkpoint_files:
+#             epochs = [int(file.split('_')[-1].split('.')[0]) for file in checkpoint_files]
+#             latest_checkpoint_index = epochs.index(max(epochs))
+#             latest_checkpoint = checkpoint_files[latest_checkpoint_index]
+#             checkpoint_path = os.path.join(args.save_dir, latest_checkpoint)
+#             print(f"Loading checkpoint from: {checkpoint_path}")
+#             try:
+#                 checkpoint = torch.load(checkpoint_path)
+#                 fk_det_model.load_state_dict(checkpoint['model_state_dict'])
+#                 start_epoch = epochs[latest_checkpoint_index] + 1
+#                 print(f"Resuming training from epoch {start_epoch} using checkpoint {latest_checkpoint}")
+#             except Exception as e:
+#                 print(f"Error loading checkpoint: {e}")
+#         else:
+#             print('No valid checkpoint files found.')
+#     else:
+#         print('No checkpoint files found. Training from scratch...')
+# else:
+#     print('Training from scratch...')
+#worked
 # if args.resume:
 #     print('Resuming training...')
 #     checkpoint_files = os.listdir(args.save_dir)
