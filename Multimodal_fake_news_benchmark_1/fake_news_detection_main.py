@@ -70,7 +70,9 @@ fk_det_model = bert_classifier.BertClassifier(args)
 
 start_epoch = 1
 # Ensure the checkpoint directory exists
+os.makedirs(args.save_dir, exist_ok=True)
 os.makedirs(args.checkpoint_dir, exist_ok=True)
+
 # If resume is True, load the latest checkpoint
 if args.resume:
     print('Resuming training...')
@@ -94,9 +96,7 @@ else:
 
 # Define datasets and dataloaders
 
-# Ensure the checkpoint directory exists
-os.makedirs(args.save_dir, exist_ok=True)
-os.makedirs(args.checkpoint_dir, exist_ok=True)
+
 
 print("\nParameters:")
 for attr, value in sorted(args.__dict__.items()):
