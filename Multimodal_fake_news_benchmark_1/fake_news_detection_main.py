@@ -1,5 +1,4 @@
 
-
 import os
 import argparse
 import datetime
@@ -49,11 +48,11 @@ parser.add_argument('-snapshot', type=str, default=None, help='filename of model
 parser.add_argument('-test', action='store_true', default=False, help='train or test')
 
 # Add arguments for checkpoint and training
-parser.add_argument('-save-dir', type=str, default='/kaggle/input/snapshot', help='Directory to save snapshots')
+parser.add_argument('-save-dir', type=str, default='/kaggle/working/snapshot', help='Directory to save snapshots')
 parser.add_argument('-resume', action='store_true', default=False, help='Resume training from the latest checkpoint')
 
 # Add arguments for checkpoint directory
-parser.add_argument('-checkpoint-dir', type=str, default='/kaggle/input/checkpoints/', help='Directory to save checkpoints')
+parser.add_argument('-checkpoint-dir', type=str, default='/kaggle/working/checkpoints/', help='Directory to save checkpoints')
 
 args = parser.parse_args()
 
@@ -85,8 +84,6 @@ if args.resume:
 
 # Define datasets and dataloaders
 
-# Ensure the checkpoint directory exists
-os.makedirs(args.save_dir, exist_ok=True)
 # Ensure the checkpoint directory exists
 os.makedirs(args.save_dir, exist_ok=True)
 os.makedirs(args.checkpoint_dir, exist_ok=True)
