@@ -76,11 +76,13 @@ os.makedirs(args.checkpoint_dir, exist_ok=True)
 # If resume is True, load the latest checkpoint
 if args.resume:
     print('Resuming training...')
-    checkpoint_files = os.listdir(args.checkpoint_dir)
+    #checkpoint_files = os.listdir(args.checkpoint_dir)
+    checkpoint_files = os.listdir(args.save_dir)
     if checkpoint_files:
         print('Checkpoint files found.')
         latest_checkpoint = max(checkpoint_files, key=os.path.getctime)
-        checkpoint_path = os.path.join(args.checkpoint_dir, latest_checkpoint)
+        #checkpoint_path = os.path.join(args.checkpoint_dir, latest_checkpoint)
+        checkpoint_path = os.path.join(args.save_dir, latest_checkpoint)
         print(f"Loading checkpoint from: {checkpoint_path}")
         try:
             checkpoint = torch.load(checkpoint_path)
