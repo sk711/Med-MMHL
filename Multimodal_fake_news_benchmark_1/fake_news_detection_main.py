@@ -14,6 +14,7 @@ from eval import eval
 from baseline_models import bert_classifier
 
 parser = argparse.ArgumentParser(description='fk_det_model text classificer')
+print('test')
 
 # data
 parser.add_argument('-root-path', type=str, default='./', help='the data directory')
