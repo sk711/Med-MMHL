@@ -78,24 +78,32 @@ if args.resume:
     print('Resuming training...')
     checkpoint_files = os.listdir(args.save_dir)
     if checkpoint_files:
-        print('Checkpoint files found.')
-        print('Checkpoint files found - new msg')
-        latest_checkpoint = max(checkpoint_files, key=os.path.getctime)
-        print("LC",latest_checkpoint)
-        checkpoint_path = os.path.join(args.save_dir, latest_checkpoint)
-        print('line 84.')
-        print(f"Loading checkpoint from: {checkpoint_path}")
-        try:
-            checkpoint = torch.load(checkpoint_path)
-            fk_det_model.load_state_dict(checkpoint['model_state_dict'])
-            start_epoch = checkpoint['epoch'] + 1
-            print(f"Resuming training from epoch {start_epoch} using checkpoint {latest_checkpoint}")
-        except Exception as e:
-            print(f"Error loading checkpoint: {e}")
+        print('Checkpoint files found new .')
+        # Filter out only checkpoint files that match the expected naming convention
+        checkpoint_files = [file for file in checkpoint_files if file.startswith('Fake_News_BERT_Classifier_steps_')]
+        if checkpoint_files:
+            # Extract epoch numbers from checkpoint file names
+            epochs = [int(file.split('_')[-1].split('.')[0]) for file in checkpoint_files]
+            # Find the index of the maximum epoch
+            latest_checkpoint_index = epochs.index(max(epochs))
+            # Get the name of the latest checkpoint file
+            latest_checkpoint = checkpoint_files[latest_checkpoint_index]
+            checkpoint_path = os.path.join(args.save_dir, latest_checkpoint)
+            print(f"Loading checkpoint from: {checkpoint_path}")
+            try:
+                checkpoint = torch.load(checkpoint_path)
+                fk_det_model.load_state_dict(checkpoint['model_state_dict'])
+                start_epoch = checkpoint['epoch'] + 1
+                print(f"Resuming training from epoch {start_epoch} using checkpoint {latest_checkpoint}")
+            except Exception as e:
+                print(f"Error loading checkpoint: {e}")
+        else:
+            print('No valid checkpoint files found.')
     else:
-        print('No checkpoint files found.')
+        print('No checkpoint files found. Training from scratch...')
 else:
     print('Training from scratch...')
+
 
 # if args.resume:
 #     print('Resuming training...')
