@@ -80,7 +80,9 @@ if args.resume:
     if checkpoint_files:
         print('Checkpoint files found.')
         latest_checkpoint = max(checkpoint_files, key=os.path.getctime)
+        print("LC",latest_checkpoint)
         checkpoint_path = os.path.join(args.save_dir, latest_checkpoint)
+        print('line 84.')
         print(f"Loading checkpoint from: {checkpoint_path}")
         try:
             checkpoint = torch.load(checkpoint_path)
