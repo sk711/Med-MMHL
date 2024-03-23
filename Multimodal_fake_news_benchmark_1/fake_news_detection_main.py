@@ -73,14 +73,20 @@ start_epoch = 1
 
 # If resume is True, load the latest checkpoint
 if args.resume:
+    print('inside args.resume')
     checkpoint_files = os.listdir(args.checkpoint_dir)
     if checkpoint_files:
+        print('inside chckpointfiles')
         latest_checkpoint = max(checkpoint_files, key=os.path.getctime)
         checkpoint_path = os.path.join(args.checkpoint_dir, latest_checkpoint)
         checkpoint = torch.load(checkpoint_path)
         fk_det_model.load_state_dict(checkpoint['model_state_dict'])
         start_epoch = checkpoint['epoch'] + 1
         print(f"Resuming training from epoch {start_epoch} using checkpoint {latest_checkpoint}")
+    else:
+        print('cp not executed')
+else:
+    print('args not executed')
 
 # Define datasets and dataloaders
 
