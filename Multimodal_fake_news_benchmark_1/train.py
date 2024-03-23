@@ -103,3 +103,15 @@ def save(model, save_dir, save_prefix, steps):
     torch.save(model.state_dict(), save_path)
     print(f"Model state saved at: {save_path}")  # Add this line to print confirmation
     return save_path
+
+
+# def save(model, save_dir, save_prefix, steps):
+#     print("save function called!")  # Add this line to print confirmation
+#     if not os.path.isdir(save_dir):
+#         os.makedirs(save_dir)
+#     save_prefix1 = os.path.join(save_dir, save_prefix)
+#     save_path = '{}_steps_{}.pt'.format(save_prefix1, steps)
+#     torch.save(model.state_dict(), save_path)
+#     print(f"Model state saved at: {save_path}")  # Add this line to print confirmation
+#     return save_path
+
