@@ -69,7 +69,8 @@ tr, dev, te = MyFunc.read_benchmark_set(benchmark_dt_path)
 fk_det_model = bert_classifier.BertClassifier(args)
 
 start_epoch = 1
-
+# Ensure the checkpoint directory exists
+os.makedirs(args.checkpoint_dir, exist_ok=True)
 # If resume is True, load the latest checkpoint
 if args.resume:
     print('Resuming training...')
