@@ -79,6 +79,7 @@ if args.resume:
     checkpoint_files = os.listdir(args.save_dir)
     if checkpoint_files:
         print('Checkpoint files found.')
+        print('Checkpoint files found - new msg')
         latest_checkpoint = max(checkpoint_files, key=os.path.getctime)
         print("LC",latest_checkpoint)
         checkpoint_path = os.path.join(args.save_dir, latest_checkpoint)
