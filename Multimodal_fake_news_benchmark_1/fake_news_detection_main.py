@@ -48,7 +48,7 @@ parser.add_argument('-snapshot', type=str, default=None, help='filename of model
 parser.add_argument('-test', action='store_true', default=False, help='train or test')
 
 # Add arguments for checkpoint and training
-parser.add_argument('-save-dir', type=str, default='/kaggle/working/snapshot', help='Directory to save snapshots')
+parser.add_argument('-save-dir', type=str, default='/kaggle/working/snapshot/best_ungjus', help='Directory to save snapshots')
 parser.add_argument('-resume', action='store_true', default=True, help='Resume training from the latest checkpoint')
 
 # Add arguments for checkpoint directory
@@ -76,12 +76,10 @@ os.makedirs(args.checkpoint_dir, exist_ok=True)
 # If resume is True, load the latest checkpoint
 if args.resume:
     print('Resuming training...')
-    #checkpoint_files = os.listdir(args.checkpoint_dir)
     checkpoint_files = os.listdir(args.save_dir)
     if checkpoint_files:
         print('Checkpoint files found.')
         latest_checkpoint = max(checkpoint_files, key=os.path.getctime)
-        #checkpoint_path = os.path.join(args.checkpoint_dir, latest_checkpoint)
         checkpoint_path = os.path.join(args.save_dir, latest_checkpoint)
         print(f"Loading checkpoint from: {checkpoint_path}")
         try:
@@ -95,6 +93,28 @@ if args.resume:
         print('No checkpoint files found.')
 else:
     print('Training from scratch...')
+
+# if args.resume:
+#     print('Resuming training...')
+#     #checkpoint_files = os.listdir(args.checkpoint_dir)
+#     checkpoint_files = os.listdir(args.save_dir)
+#     if checkpoint_files:
+#         print('Checkpoint files found.')
+#         latest_checkpoint = max(checkpoint_files, key=os.path.getctime)
+#         #checkpoint_path = os.path.join(args.checkpoint_dir, latest_checkpoint)
+#         checkpoint_path = os.path.join(args.save_dir, latest_checkpoint)
+#         print(f"Loading checkpoint from: {checkpoint_path}")
+#         try:
+#             checkpoint = torch.load(checkpoint_path)
+#             fk_det_model.load_state_dict(checkpoint['model_state_dict'])
+#             start_epoch = checkpoint['epoch'] + 1
+#             print(f"Resuming training from epoch {start_epoch} using checkpoint {latest_checkpoint}")
+#         except Exception as e:
+#             print(f"Error loading checkpoint: {e}")
+#     else:
+#         print('No checkpoint files found.')
+# else:
+#     print('Training from scratch...')
 
 # Define datasets and dataloaders
 
