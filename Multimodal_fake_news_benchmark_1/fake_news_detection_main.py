@@ -86,9 +86,12 @@ if args.resume:
             print(f"Loading checkpoint from: {checkpoint_path}")
             try:
                 checkpoint = torch.load(checkpoint_path)
-                fk_det_model.load_state_dict(checkpoint['model_state_dict'])
-                start_epoch = checkpoint['epoch'] + 1  # Adjust based on your checkpoint structure
-                print(f"Resuming training from step {steps[latest_checkpoint_index]} using checkpoint {latest_checkpoint}")
+                if 'model_state_dict' in checkpoint:
+                    fk_det_model.load_state_dict(checkpoint['model_state_dict'])
+                    start_epoch = checkpoint['epoch'] + 1  # Adjust based on your checkpoint structure
+                    print(f"Resuming training from step {steps[latest_checkpoint_index]} using checkpoint {latest_checkpoint}")
+                else:
+                    print("Error: 'model_state_dict' key not found in the checkpoint file.")
             except Exception as e:
                 print(f"Error loading checkpoint: {e}")
         else:
