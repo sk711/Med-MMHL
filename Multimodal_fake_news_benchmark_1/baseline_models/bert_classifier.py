@@ -22,7 +22,7 @@ class BertClassifier(nn.Module):
         elif args.bert_type.find('Fake_News') != -1:
             self.bert = DistilBertModel.from_pretrained(args.bert_type)
         elif args.bert_type.find('bart') != -1:  # Adding BART support
-            self.bert = BartModel.from_pretrained(args.bert_type)
+            self.bert = BartForSequenceClassification.from_pretrained(args.bert_type)
         self.type = args.bert_type
         self.dropout = nn.Dropout(args.dropout)
         if self.type.find('all-MiniLM') != -1:
