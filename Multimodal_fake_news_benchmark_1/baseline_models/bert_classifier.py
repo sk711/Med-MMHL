@@ -8,7 +8,7 @@ class BertClassifier(nn.Module):
         super(BertClassifier, self).__init__()
          #my code
         # Initialize BART tokenizer
-        self.tokenizer = BartTokenizer.from_pretrained(args.bert_type)
+        #self.tokenizer = BartTokenizer.from_pretrained(args.bert_type)
         #my code ends
         if args.bert_type.find('bert-base-cased') != -1:
             self.bert = BertModel.from_pretrained(args.bert_type)
@@ -27,6 +27,7 @@ class BertClassifier(nn.Module):
             self.bert = DistilBertModel.from_pretrained(args.bert_type)
         elif args.bert_type.find('bart') != -1:  # Adding BART support
             self.bert = BartForSequenceClassification.from_pretrained(args.bert_type)
+            
         self.type = args.bert_type
         self.dropout = nn.Dropout(args.dropout)
         if self.type.find('all-MiniLM') != -1:
