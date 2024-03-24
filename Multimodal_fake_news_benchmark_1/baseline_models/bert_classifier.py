@@ -56,8 +56,6 @@ class BertClassifier(nn.Module):
         elif self.type.find('bart') != -1:
         # Agar model BART hai, toh output 'logits' ke roop mein aayega
            pooled_output = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)
-       
-        return output
         else:
             _, pooled_output = self.bert(input_ids= input_id, attention_mask=mask,return_dict=False) # pooled_output: text embeeding
         # print('pooled_output', pooled_output.shape)
