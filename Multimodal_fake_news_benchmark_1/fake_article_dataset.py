@@ -40,7 +40,7 @@ class PD_Dataset:
             self.tokenizer = BertTokenizer.from_pretrained(args.bert_type)
         elif args.bert_type.find('Fake_News') != -1:
             self.tokenizer = DistilBertTokenizer.from_pretrained(args.bert_type)
-        elif args.bert_type.find('bart') != -1
+        elif args.bert_type.find('bart') != -1:
             self.bart_tokenizer = BartTokenizer.from_pretrained('facebook/bart-large-cnn')  # Load BART tokenizer
 
 
