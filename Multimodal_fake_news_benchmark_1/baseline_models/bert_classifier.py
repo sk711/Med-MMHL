@@ -6,6 +6,10 @@ class BertClassifier(nn.Module):
     def __init__(self, args):
 
         super(BertClassifier, self).__init__()
+         #my code
+        # Initialize BART tokenizer
+        self.tokenizer = BartTokenizer.from_pretrained(args.bert_type)
+        #my code ends
         if args.bert_type.find('bert-base-cased') != -1:
             self.bert = BertModel.from_pretrained(args.bert_type)
         elif args.bert_type.find('BioBERT') != -1 or args.bert_type.find('declutr') != -1 \
