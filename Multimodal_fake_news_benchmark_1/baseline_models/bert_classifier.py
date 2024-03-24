@@ -21,7 +21,7 @@ class BertClassifier(nn.Module):
             self.bert = AlbertModel.from_pretrained(args.bert_type)
         elif args.bert_type.find('Fake_News') != -1:
             self.bert = DistilBertModel.from_pretrained(args.bert_type)
-        elif args.bert_type.find('bart') != -1:  # Add BART model handling
+        elif args.bert_type.find('bart') != -1: 
             self.model = BartForSequenceClassification.from_pretrained(args.bert_type, num_labels=2)
         self.type = args.bert_type
         self.dropout = nn.Dropout(args.dropout)
