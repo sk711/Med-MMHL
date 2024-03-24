@@ -46,12 +46,12 @@ class BertClassifier(nn.Module):
         # #pooled_output = outputs[0]  # Extract logits from the BART output
         # print("pooled_output:", pooled_output)
         
-        if self.type.find('funnel') != -1 or self.type.find('all-MiniLM') != -1 or self.type.find('bart') != -1:
+        if self.type.find('funnel') != -1 or self.type.find('all-MiniLM') != -1:
             mask = mask.squeeze()
             pooled_output = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)[0].mean(dim=1).squeeze()
-        elif self.type.find('declutr') != -1:
+        elif self.type.find('declutr') != -1 or self.type.find('bart') != -1:
             _, pooled_output, _ = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)
-        elif self.type.find('Fake_News') != -1  or self.type.find('distil') != -1:
+        elif self.type.find('Fake_News') != -1  or self.type.find('distil') != -1 :
             pooled_output = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)[0].mean(dim=1).squeeze()
         else:
             _, pooled_output = self.bert(input_ids= input_id, attention_mask=mask,return_dict=False) # pooled_output: text embeeding
