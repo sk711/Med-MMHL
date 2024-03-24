@@ -42,7 +42,7 @@ class BertClassifier(nn.Module):
             mask = mask.squeeze(1)  # Squeeze the middle dimension
         outputs = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)
         print("BART Output:", outputs) 
-        logits = outputs['logits']  # Extract logits from the BART output
+        logits = outputs[0]  # Extract logits from the BART output
         print("Logits:", logits)
         
         if self.type.find('funnel') != -1 or self.type.find('all-MiniLM') != -1:
