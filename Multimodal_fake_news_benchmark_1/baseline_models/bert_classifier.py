@@ -31,7 +31,7 @@ class BertClassifier(nn.Module):
             
         self.type = args.bert_type
         self.dropout = nn.Dropout(args.dropout)
-        if self.type.find('all-MiniLM') != -1 or self.type.find('bart') !=-1:
+        if self.type.find('all-MiniLM') != -1:
             self.l1 = nn.Linear(384, 256)
         else:
             self.l1 = nn.Linear(768, 256)
@@ -56,6 +56,10 @@ class BertClassifier(nn.Module):
         #pooled_output = outputs[1] 
         dropout_output = self.dropout(pooled_output)
         dropout_output = self.relu(self.l1(dropout_output))
+        dropout_output = dropout_output.unsqueeze(0)  # Add this line to reshape
         linear_output = self.l2(dropout_output)
+     #   dropout_output = self.relu(self.l1(dropout_output))  # Existing line
+
+
 
         return linear_output
