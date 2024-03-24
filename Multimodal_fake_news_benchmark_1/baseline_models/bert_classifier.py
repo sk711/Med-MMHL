@@ -46,7 +46,8 @@ class BertClassifier(nn.Module):
             pooled_output = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)[0].mean(dim=1).squeeze()
          elif self.type.find('bart') != -1:  # Use BART model directly
             outputs = self.model(input_ids=input_id, attention_mask=mask)
-            pooled_output = outputs.logits # Accessing the logits from the BART output tuple
+            #pooled_output = outputs.logits # Accessing the logits from the BART output tuple
+             pooled_output = outputs[0]
         else:
             _, pooled_output = self.bert(input_ids= input_id, attention_mask=mask,return_dict=False) # pooled_output: text embeeding
         # print('pooled_output', pooled_output.shape)
