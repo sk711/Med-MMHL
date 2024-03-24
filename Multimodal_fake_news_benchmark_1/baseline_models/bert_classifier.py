@@ -31,7 +31,7 @@ class BertClassifier(nn.Module):
             
         self.type = args.bert_type
         self.dropout = nn.Dropout(args.dropout)
-        if self.type.find('all-MiniLM') != -1:
+        if self.type.find('all-MiniLM') != -1 or self.type.find('bart') !=-1:
             self.l1 = nn.Linear(384, 256)
         else:
             self.l1 = nn.Linear(768, 256)
