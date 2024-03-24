@@ -43,7 +43,7 @@ class BertClassifier(nn.Module):
                 parameter.require_gard = False
 
     def forward(self, input_id, mask):
-        if self.type.find('funnel') != -1 or self.type.find('all-MiniLM') != -1 or sel.type.find('bart') != -1 :
+        if self.type.find('funnel') != -1 or self.type.find('all-MiniLM') != -1 or self.type.find('bart') != -1 :
             mask = mask.squeeze()
             pooled_output = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)[0].mean(dim=1).squeeze()
         elif self.type.find('declutr') != -1:
