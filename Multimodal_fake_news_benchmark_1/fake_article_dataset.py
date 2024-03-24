@@ -42,7 +42,7 @@ class PD_Dataset:
             self.tokenizer = DistilBertTokenizer.from_pretrained(args.bert_type)
         elif args.bert_type.find('bart') != -1:
             print('check here-----------------------------------')
-            self.bart_tokenizer = BartTokenizer.from_pretrained(args.bert_type)  # Load BART tokenizer
+            self.tokenizer = BartTokenizer.from_pretrained(args.bert_type)  # Load BART tokenizer
 
 
         self.labels = [label for label in self.df_data['det_fake_label']]
