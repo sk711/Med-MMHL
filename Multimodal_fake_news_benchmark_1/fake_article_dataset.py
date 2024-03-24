@@ -135,7 +135,7 @@ class MM_Dataset: # multimodal dataset
             max_len = 77
             self.tokenizer =CLIPTokenizer.from_pretrained(args.clip_type)
         elif args.bert_type.find('bart') != -1:
-            self.tokenizer = BartTokenizer.from_pretrained(args.bert_type)  # Load BART tokenizer
+            self.tokenizer = BartTokenizer.from_pretrained(args.clip_type)  # Load BART tokenizer
         else:
             max_len = 49
             self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
