@@ -50,9 +50,9 @@ def train(train_iter, dev_dataloader, model, args):
             optimizer.step()
             #was commented in original code
             print('uncommented code1')
-            for name, param in model.named_parameters():
-                 if param.requires_grad:
-                     print(name, param.data)
+            #for name, param in model.named_parameters():
+            #    if param.requires_grad:
+             #        print(name, param.data)
 
             steps += 1
             if steps % args.log_interval == 0:
