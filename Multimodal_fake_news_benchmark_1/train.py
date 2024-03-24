@@ -35,7 +35,7 @@ def train(train_iter, dev_dataloader, model, args):
             if args.cuda:
                 target = target.cuda()
                 mask = mask.cuda()
-                mask = mask.squeeze(1)  
+                #mask = mask.squeeze(1)  
                 print(f"Attention mask shape: {mask.shape}")
                 input_id = input_id.cuda()
 
