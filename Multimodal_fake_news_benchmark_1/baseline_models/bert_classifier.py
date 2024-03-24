@@ -42,8 +42,8 @@ class BertClassifier(nn.Module):
             mask = mask.squeeze(1)  # Squeeze the middle dimension
         outputs = self.bert(input_ids=input_id, attention_mask=mask)
         print("BART Output:", outputs) 
-        pooled_output = outputs[0]
-        print("Pooled Output:", pooled_output)
+        logits = outputs.logits  # Extract logits from the BART output
+        print("Logits:", logits)
         
         if self.type.find('funnel') != -1 or self.type.find('all-MiniLM') != -1:
             mask = mask.squeeze()
