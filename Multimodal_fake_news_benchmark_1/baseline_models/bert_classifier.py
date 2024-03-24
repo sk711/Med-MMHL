@@ -55,7 +55,8 @@ class BertClassifier(nn.Module):
             pooled_output = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)[0].mean(dim=1).squeeze()
         elif self.type.find('bart') != -1:
         # Agar model BART hai, toh output 'logits' ke roop mein aayega
-           pooled_output = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)
+           outputs = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)
+           pooled_output = outputs.last_hidden_state.mean(dim=1)
         else:
             _, pooled_output = self.bert(input_ids= input_id, attention_mask=mask,return_dict=False) # pooled_output: text embeeding
         # print('pooled_output', pooled_output.shape)
