@@ -1,5 +1,5 @@
 from torch import nn
-from transformers import BertModel, AutoModel, pipeline, FunnelModel, AutoModelForMaskedLM, AlbertModel, RobertaModel, DistilBertModel
+from transformers import BertModel, AutoModel, pipeline, FunnelModel, AutoModelForMaskedLM, AlbertModel, RobertaModel, DistilBertModel, BartModel
 
 class BertClassifier(nn.Module):
 
