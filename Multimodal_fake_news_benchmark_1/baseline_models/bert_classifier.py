@@ -40,9 +40,10 @@ class BertClassifier(nn.Module):
            # Ensure the mask tensor has the correct shape for BART model
         if self.type.find('bart') != -1 and mask.dim() == 3:
             mask = mask.squeeze(1)  # Squeeze the middle dimension
-        outputs = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)
-        print("BART Output:", outputs) 
-        pooled_output = outputs[0]  # Extract logits from the BART output
+        #outputs = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)
+        pooled_output = self.bert(input_ids=input_id, attention_mask=mask)
+        #print("BART Output:", outputs) 
+        #pooled_output = outputs[0]  # Extract logits from the BART output
         print("pooled_output:", pooled_output)
         
         if self.type.find('funnel') != -1 or self.type.find('all-MiniLM') != -1:
