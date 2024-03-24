@@ -44,7 +44,7 @@ def train(train_iter, dev_dataloader, model, args):
 
             optimizer.zero_grad()
             logit = model(input_id, mask)
-            print(logit.shape, target.shape)
+            print('logit',logit.shape, target.shape)
             loss = F.cross_entropy(logit, target)
             losses.append(loss.item())
 
