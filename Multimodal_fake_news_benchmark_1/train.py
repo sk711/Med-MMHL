@@ -43,6 +43,9 @@ def train(train_iter, dev_dataloader, model, args):
                 input_id = input_id.cuda()
 
             optimizer.zero_grad()
+            print('till logit)
+            print('input',input_id)
+            print('mask' ,mask)
             logit = model(input_id, mask)
             print('logit',logit.shape, target.shape)
             loss = F.cross_entropy(logit, target)
