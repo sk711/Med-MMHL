@@ -12,6 +12,8 @@ import MyFunc
 
 from eval import eval
 from baseline_models import bert_classifier
+from transformers import BartTokenizer
+
 
 parser = argparse.ArgumentParser(description='fk_det_model text classificer')
 print('test')
