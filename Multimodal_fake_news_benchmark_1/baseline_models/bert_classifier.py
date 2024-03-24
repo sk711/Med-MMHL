@@ -26,6 +26,7 @@ class BertClassifier(nn.Module):
         elif args.bert_type.find('Fake_News') != -1:
             self.bert = DistilBertModel.from_pretrained(args.bert_type)
         elif args.bert_type.find('bart') != -1:  # Adding BART support
+            print('here--------------------------------------------')
             self.bert = BartForSequenceClassification.from_pretrained(args.bert_type)
             
         self.type = args.bert_type
