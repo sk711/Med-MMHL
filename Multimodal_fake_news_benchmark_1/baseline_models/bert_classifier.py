@@ -37,6 +37,11 @@ class BertClassifier(nn.Module):
                 parameter.require_gard = False
 
     def forward(self, input_id, mask):
+           # Ensure the mask tensor has the correct shape for BART model
+        if self.type.find('bart') != -1 and mask.dim() == 3:
+            mask = mask.squeeze(1)  # Squeeze the middle dimension
+        outputs = self.bert(input_ids=input_id, attention_mask=mask)
+        pooled_output = outputs[0]
         if self.type.find('funnel') != -1 or self.type.find('all-MiniLM') != -1:
             mask = mask.squeeze()
             pooled_output = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)[0].mean(dim=1).squeeze()
@@ -44,10 +49,6 @@ class BertClassifier(nn.Module):
             _, pooled_output, _ = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)
         elif self.type.find('Fake_News') != -1  or self.type.find('distil') != -1:
             pooled_output = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)[0].mean(dim=1).squeeze()
-        elif self.type.find('bart') != -1:
-            outputs = self.bert(input_ids=input_id, attention_mask=mask)
-            #pooled_output = outputs.logits # Accessing the logits from the BART output tuple
-            pooled_output = outputs[0]
         else:
             _, pooled_output = self.bert(input_ids= input_id, attention_mask=mask,return_dict=False) # pooled_output: text embeeding
         # print('pooled_output', pooled_output.shape)
