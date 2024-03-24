@@ -52,12 +52,11 @@ class BertClassifier(nn.Module):
             pooled_output = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)[0].mean(dim=1).squeeze()
         else:
             _, pooled_output = self.bert(input_ids= input_id, attention_mask=mask,return_dict=False) # pooled_output: text embeeding
-        # print('pooled_output', pooled_output.shape)
+        print('pooled_output', pooled_output.shape)
         #pooled_output = outputs[1] 
         dropout_output = self.dropout(pooled_output)
         print(f"Shape of mat1 before linear layer: {dropout_output.shape}")
         print(f"Shape of mat2 (weight matrix): {self.l1.weight.shape}")
-        #dropout_output = self.relu(self.l1(dropout_output))
         dropout_output = self.relu(self.l1(dropout_output.unsqueeze(1)))  # Reshape & linear layer
         dropout_output = self.relu(self.l1(dropout_output))
         #dropout_output = dropout_output.unsqueeze(0)  # Add this line to reshape
