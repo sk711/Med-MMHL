@@ -12,7 +12,6 @@ import MyFunc
 
 from eval import eval
 from baseline_models import bert_classifier
-from transformers import BartTokenizer
 
 
 parser = argparse.ArgumentParser(description='fk_det_model text classificer')
@@ -93,7 +92,7 @@ te_dataloader = torch.utils.data.DataLoader(
 
 # (x_train, y_train), (x_val, y_val), (x_test, y_test) = dataset.generate_data()
 # args.class_num = tr_dataset.get_class_num()
-self.tokenizer = BartTokenizer.from_pretrained(args.bert_type)
+
 
 print("\nParameters:")
 for attr, value in sorted(args.__dict__.items()):
