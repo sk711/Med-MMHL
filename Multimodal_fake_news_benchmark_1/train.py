@@ -1,7 +1,6 @@
 import os
 import sys
 from operator import itemgetter
-
 import sklearn
 import sklearn.metrics
 import torch
@@ -10,8 +9,6 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 import numpy as np
 from eval import eval
-
-
 
 def train(train_iter, dev_dataloader, model, args):
     if args.cuda:
@@ -38,6 +35,7 @@ def train(train_iter, dev_dataloader, model, args):
             if args.cuda:
                 target = target.cuda()
                 mask = mask.cuda()
+                print(f"Attention mask shape: {mask.shape}")
                 input_id = input_id.cuda()
 
             optimizer.zero_grad()
