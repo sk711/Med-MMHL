@@ -1,15 +1,11 @@
 from torch import nn
-from transformers import BertModel, AutoModel, pipeline, FunnelModel, AutoModelForMaskedLM, AlbertModel, RobertaModel, DistilBertModel, BartTokenizer, BartForSequenceClassification
+from transformers import BertModel, AutoModel, pipeline, FunnelModel, AutoModelForMaskedLM, AlbertModel, RobertaModel, DistilBertModel, BartForSequenceClassification
 
 class BertClassifier(nn.Module):
 
     def __init__(self, args):
 
         super(BertClassifier, self).__init__()
-         #my code
-        # Initialize BART tokenizer
-        #self.tokenizer = BartTokenizer.from_pretrained(args.bert_type)
-        #my code ends
         if args.bert_type.find('bert-base-cased') != -1:
             self.bert = BertModel.from_pretrained(args.bert_type)
         elif args.bert_type.find('BioBERT') != -1 or args.bert_type.find('declutr') != -1 \
@@ -25,10 +21,8 @@ class BertClassifier(nn.Module):
             self.bert = AlbertModel.from_pretrained(args.bert_type)
         elif args.bert_type.find('Fake_News') != -1:
             self.bert = DistilBertModel.from_pretrained(args.bert_type)
-        elif args.bert_type.find('bart') != -1:  # Adding BART support
-            print('here--------------------------------------------')
-            self.bert = BartForSequenceClassification.from_pretrained(args.bert_type)
-            
+        elif args.bert_type.find('bart') != -1:  # Add BART model handling
+            self.model = BartForSequenceClassification.from_pretrained(args.bert_type, num_labels=2)
         self.type = args.bert_type
         self.dropout = nn.Dropout(args.dropout)
         if self.type.find('all-MiniLM') != -1:
@@ -50,19 +44,14 @@ class BertClassifier(nn.Module):
             _, pooled_output, _ = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)
         elif self.type.find('Fake_News') != -1  or self.type.find('distil') != -1:
             pooled_output = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)[0].mean(dim=1).squeeze()
+         elif self.type.find('bart') != -1:  # Use BART model directly
+            outputs = self.model(input_ids=input_id, attention_mask=mask)
+            pooled_output = outputs.logits # Accessing the logits from the BART output tuple
         else:
             _, pooled_output = self.bert(input_ids= input_id, attention_mask=mask,return_dict=False) # pooled_output: text embeeding
-        print('pooled_output', pooled_output.shape)
-        #pooled_output = outputs[1] 
+        # print('pooled_output', pooled_output.shape)
         dropout_output = self.dropout(pooled_output)
-        print(f"Shape of mat1 before linear layer: {dropout_output.shape}")
-        print(f"Shape of mat2 (weight matrix): {self.l1.weight.shape}")
-        dropout_output = self.relu(self.l1(dropout_output.unsqueeze(1)))  # Reshape & linear layer
         dropout_output = self.relu(self.l1(dropout_output))
-        #dropout_output = dropout_output.unsqueeze(0)  # Add this line to reshape
         linear_output = self.l2(dropout_output)
-     #   dropout_output = self.relu(self.l1(dropout_output))  # Existing line
-
-
 
         return linear_output
