@@ -13,7 +13,7 @@ import ntpath
 import json
 
 from transformers import BertTokenizer, CLIPProcessor, CLIPImageProcessor, CLIPTokenizer, FunnelTokenizer, AutoTokenizer, \
-    AlbertTokenizer, RobertaTokenizer, DistilBertTokenizer, LxmertTokenizer, AutoProcessor, AutoImageProcessor
+    AlbertTokenizer, RobertaTokenizer, DistilBertTokenizer, LxmertTokenizer, AutoProcessor, AutoImageProcessor, BartTokenizer
 # from sentence_transformers import SentenceTransformer
 import clip
 from PIL import Image
@@ -40,6 +40,9 @@ class PD_Dataset:
             self.tokenizer = BertTokenizer.from_pretrained(args.bert_type)
         elif args.bert_type.find('Fake_News') != -1:
             self.tokenizer = DistilBertTokenizer.from_pretrained(args.bert_type)
+        elif args.bert_type.find('bart') != -1
+            self.bart_tokenizer = BartTokenizer.from_pretrained('facebook/bart-large-cnn')  # Load BART tokenizer
+
 
         self.labels = [label for label in self.df_data['det_fake_label']]
         self.texts = []
