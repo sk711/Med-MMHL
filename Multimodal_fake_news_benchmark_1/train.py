@@ -49,7 +49,7 @@ def train(train_iter, dev_dataloader, model, args):
             loss.backward()
             optimizer.step()
             #was commented in original code
-            print('uncommented code1')
+            #print('uncommented code1')
             #for name, param in model.named_parameters():
             #    if param.requires_grad:
              #        print(name, param.data)
@@ -89,6 +89,7 @@ def train(train_iter, dev_dataloader, model, args):
         #was commented in original code
         print('uncommented cide 2')
         if steps % args.save_interval == 0:
+             print('inside args.save')
              save(model, args.save_dir, 'snapshot', steps)
 
 
