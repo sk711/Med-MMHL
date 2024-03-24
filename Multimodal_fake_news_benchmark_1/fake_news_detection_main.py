@@ -32,7 +32,7 @@ parser.add_argument('-test-interval', type=int, default=1, help='how many steps 
 #parser.add_argument('-save-interval', type=int, default=10, help='how many steps to wait before saving [default:500]')
 parser.add_argument('-save-interval', type=int, default=1, help='how many steps to wait before saving [default:500]')
 #parser.add_argument('-save-dir', type=str, default='snapshot', help='where to save the snapshot')
-parser.add_argument('-save-dir', type=str, default='kaggle/working/snapshot', help='where to save the snapshot')
+parser.add_argument('-save-dir', type=str, default='kaggle/working/kaggle/working/snapshot', help='where to save the snapshot')
 parser.add_argument('-early-stop', type=int, default=15, help='iteration numbers to stop without performance increasing')
 parser.add_argument('-save-best', type=bool, default=True, help='whether to save when get best performance')
 parser.add_argument('-small_data', action='store_true', default=False, help='whether use small dataset for fast debug')
