@@ -87,10 +87,10 @@ def train(train_iter, dev_dataloader, model, args):
                     print('early stop by {} steps.'.format(args.early_stop))
                     break
         ##was commented in original code
-        print('uncommented cide 2')
-        if steps % args.save_interval == 0:
-             print('inside args.save')
-             save(model, args.save_dir, 'snapshot', steps)
+        #print('uncommented cide 2')
+        #if steps % args.save_interval == 0:
+         #    print('inside args.save')
+          #   save(model, args.save_dir, 'snapshot', steps)
 
 
 def save(model, save_dir, save_prefix, steps):
