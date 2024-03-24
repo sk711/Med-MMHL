@@ -58,9 +58,9 @@ class BertClassifier(nn.Module):
         print(f"Shape of mat1 before linear layer: {dropout_output.shape}")
         print(f"Shape of mat2 (weight matrix): {self.l1.weight.shape}")
         #dropout_output = self.relu(self.l1(dropout_output))
-
+        dropout_output = self.relu(self.l1(dropout_output.unsqueeze(1)))  # Reshape & linear layer
         dropout_output = self.relu(self.l1(dropout_output))
-        dropout_output = dropout_output.unsqueeze(0)  # Add this line to reshape
+        #dropout_output = dropout_output.unsqueeze(0)  # Add this line to reshape
         linear_output = self.l2(dropout_output)
      #   dropout_output = self.relu(self.l1(dropout_output))  # Existing line
 
