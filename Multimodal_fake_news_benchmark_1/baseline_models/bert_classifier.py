@@ -53,7 +53,7 @@ class BertClassifier(nn.Module):
         else:
             _, pooled_output = self.bert(input_ids= input_id, attention_mask=mask,return_dict=False) # pooled_output: text embeeding
         # print('pooled_output', pooled_output.shape)
-        pooled_output = outputs[1] 
+        #pooled_output = outputs[1] 
         dropout_output = self.dropout(pooled_output)
         dropout_output = self.relu(self.l1(dropout_output))
         linear_output = self.l2(dropout_output)
