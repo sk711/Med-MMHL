@@ -40,8 +40,8 @@ class BertClassifier(nn.Module):
 
     def forward(self, input_id, mask):
         print('forward function calleed')
-        print('Input ID tensor size:', input_id.size())
-        print('Mask tensor size:', mask.size())
+        #print('Input ID tensor size:', input_id.size())
+        #print('Mask tensor size:', mask.size())
           
         if self.type.find('funnel') != -1 or self.type.find('all-MiniLM') != -1:
             mask = mask.squeeze()
