@@ -41,7 +41,7 @@ class PD_Dataset:
         elif args.bert_type.find('Fake_News') != -1:
             self.tokenizer = DistilBertTokenizer.from_pretrained(args.bert_type)
         elif args.bert_type.find('bart') != -1:  #my code starts
-            print('fake_news_datsaet bART tokenizer called-----------------------------------')
+            #print('fake_news_datsaet bART tokenizer called-----------------------------------')
             self.tokenizer = BartTokenizer.from_pretrained(args.bert_type) #my code ends 
         self.labels = [label for label in self.df_data['det_fake_label']]
         self.texts = []
