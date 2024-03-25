@@ -23,7 +23,7 @@ class BertClassifier(nn.Module):
             self.bert = DistilBertModel.from_pretrained(args.bert_type)
         elif args.bert_type.find('bart') != -1: 
             print('first bart')
-            self.bert = BartForSequenceClassification.from_pretrained(args.bert_type)
+            self.bert = BartModel.from_pretrained(args.bert_type)
         self.type = args.bert_type
         self.dropout = nn.Dropout(args.dropout)
         if self.type.find('all-MiniLM') != -1:
