@@ -28,9 +28,8 @@ class BertClassifier(nn.Module):
         self.dropout = nn.Dropout(args.dropout)
         if self.type.find('all-MiniLM') != -1:
             self.l1 = nn.Linear(384, 256)
-        if self.type.find('bart') != -1:
-            self.l1 = nn.Linear(384,256)
         else:
+            print('The else portion')
             self.l1 = nn.Linear(768, 256)
         self.l2 = nn.Linear(256, 2)
         self.relu = nn.ReLU()
