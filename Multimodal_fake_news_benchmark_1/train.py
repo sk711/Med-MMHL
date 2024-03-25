@@ -39,7 +39,7 @@ def train(train_iter, dev_dataloader, model, args):
                     mask = mask.squeeze(1)
                 
                 #mask = mask.squeeze(1)  
-                print(f"Attention mask shape: {mask.shape}")
+                #print(f"Attention mask shape: {mask.shape}")
                 input_id = input_id.cuda()
 
             optimizer.zero_grad()
