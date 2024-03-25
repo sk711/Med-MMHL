@@ -43,7 +43,7 @@ class BertClassifier(nn.Module):
         print('Input ID tensor size:', input_id.size())
         print('Mask tensor size:', mask.size())
           
-        if self.type.find('funnel') != -1 or self.type.find('all-MiniLM') != -1 or self.type.find('bart') != -1:
+        if self.type.find('funnel') != -1 or self.type.find('all-MiniLM') != -1:
             mask = mask.squeeze()
             pooled_output = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)[0].mean(dim=1).squeeze()
         elif self.type.find('declutr') != -1:
@@ -54,6 +54,7 @@ class BertClassifier(nn.Module):
         # Agar model BART hai, toh output 'logits' ke roop mein aayega
           pooled_output = self.bert(input_ids=input_id, attention_mask=mask)
           print("pooled_output:", pooled_output)
+          print('BART output shape:', bart_output.shape)
         else:
             _, pooled_output = self.bert(input_ids= input_id, attention_mask=mask,return_dict=False) # pooled_output: text embeeding
         # print('pooled_output', pooled_output.shape)
