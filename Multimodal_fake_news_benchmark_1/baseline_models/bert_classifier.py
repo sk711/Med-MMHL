@@ -39,7 +39,7 @@ class BertClassifier(nn.Module):
                 parameter.require_gard = False
 
     def forward(self, input_id, mask):
-        print('forward function calleed')
+       # print('forward function calleed')
         #print('Input ID tensor size:', input_id.size())
         #print('Mask tensor size:', mask.size())
           
