@@ -51,6 +51,7 @@ class BertClassifier(nn.Module):
         elif self.type.find('Fake_News') != -1  or self.type.find('distil') != -1 or  self.type.find('bart') != -1:
             pooled_output = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)[0].mean(dim=1).squeeze()
         elif self.type.find('bart') != -1 and mask.dim() ==3:
+          print('bart called')
         # Agar model BART hai, toh output 'logits' ke roop mein aayega
           pooled_output = self.bert(input_ids=input_id, attention_mask=mask)
           print("pooled_output:", pooled_output)
