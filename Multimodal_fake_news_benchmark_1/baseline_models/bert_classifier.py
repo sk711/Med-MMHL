@@ -6,6 +6,8 @@ class BertClassifier(nn.Module):
     def __init__(self, args):
 
         super(BertClassifier, self).__init__()
+        if args.bert_type.find('mobilebert') != -1:
+            self.bert = MobileBertModel.from_pretrained(args.bert_type)
         if args.bert_type.find('bert-base-cased') != -1:
             self.bert = BertModel.from_pretrained(args.bert_type)
         elif args.bert_type.find('BioBERT') != -1 or args.bert_type.find('declutr') != -1 \
@@ -26,7 +28,9 @@ class BertClassifier(nn.Module):
             self.bert = BartModel.from_pretrained(args.bert_type)
         self.type = args.bert_type
         self.dropout = nn.Dropout(args.dropout)
-        if self.type.find('all-MiniLM') != -1:
+        if self.type.find('mobilebert') != -1:
+            self.l1 = nn.Linear(512, 256) 
+        elif self.type.find('all-MiniLM') != -1:
             self.l1 = nn.Linear(384, 256)
         else:
             print('The else portion')
