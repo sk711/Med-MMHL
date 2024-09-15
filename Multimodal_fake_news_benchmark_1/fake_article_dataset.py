@@ -13,7 +13,7 @@ import ntpath
 import json
 
 from transformers import BertTokenizer, CLIPProcessor, CLIPImageProcessor, CLIPTokenizer, FunnelTokenizer, AutoTokenizer, \
-    AlbertTokenizer, RobertaTokenizer, DistilBertTokenizer, LxmertTokenizer, AutoProcessor, AutoImageProcessor, BartTokenizer
+    AlbertTokenizer, RobertaTokenizer, DistilBertTokenizer, LxmertTokenizer, AutoProcessor, AutoImageProcessor, BartTokenizer, MobileBertTokenizer
 # from sentence_transformers import SentenceTransformer
 import clip
 from PIL import Image
@@ -28,7 +28,9 @@ class PD_Dataset:
         self.df_data = data_pandas
         self.class_num = 2
 
-        if args.bert_type.find('funnel') != -1:
+        if args.bert_type.find('mobilebert') != -1:
+            self.tokenizer = MobileBertTokenizer.from_pretrained(args.bert_type)
+        elif args.bert_type.find('funnel') != -1:
             self.tokenizer = FunnelTokenizer.from_pretrained(args.bert_type)
         elif args.bert_type.find('BioBERT') != -1 or args.bert_type.find('declutr') != -1 or args.bert_type.find('covid-twitter-bert-v2') != -1:
             self.tokenizer = AutoTokenizer.from_pretrained(args.bert_type)
